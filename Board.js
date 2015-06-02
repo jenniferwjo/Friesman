@@ -12,6 +12,7 @@ function Board()
 {
 	this.introAudio = new Audio('audio/intro.mp3');
 	this.startAudio = new Audio('audio/start.mp3');
+	this.gameOverAudio = new Audio('audio/gameOver.mp3');
 	// this.startAudio.play();
 	this.diedAudio = new Audio('audio/nonono.mp3');
 	// creating enemies inside of the map
@@ -129,7 +130,8 @@ Board.prototype.die = function(enemyID)
     this.power = false;
     this.life--;
 	MOVED = -1;
-	this.diedAudio.play();
+	if (this.life !== 0)
+		this.diedAudio.play();
 }
 
 Board.prototype.killEnemy = function(enemyID)

@@ -33,6 +33,7 @@ var num_shade_points = 0;
 
 var timer = 0;
 var pause = false;
+var end = false;
 
 var rock1;
 var rock1_init_position = vec3(0,11,20);
@@ -305,14 +306,21 @@ function render()
 
     if(gameBoard.life == 0)
     {
+        gameBoard.gameOverAudio.play();
+        modelViewIndex = 0;
+        modelViewM = getModelView(modelViewIndex);
+        gl.uniformMatrix4fv(mModelViewLoc, false, new flatten(modelViewM));
         sad_end.render();
-        pause = true;
+        end = true;
     }
     else if (dots == 0)
     {
+        modelViewIndex = 0;
+        modelViewM = getModelView(modelViewIndex);
+        gl.uniformMatrix4fv(mModelViewLoc, false, new flatten(modelViewM));
         happy_end.render();
         resetObstacles();
-        pause = true;
+        end = true;
     }
 
     // ==================== ENABLE : tangents buffer ====================
@@ -444,6 +452,6 @@ function render()
     ctx.restore();
 
     timer++;
-    if (!pause)
+    if (!pause && !end)
         window.requestAnimFrame(render);
 }
