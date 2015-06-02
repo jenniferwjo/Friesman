@@ -13,8 +13,8 @@ function Board()
 	this.introAudio = new Audio('audio/intro.mp3');
 	this.startAudio = new Audio('audio/start.mp3');
 	this.gameOverAudio = new Audio('audio/gameOver.mp3');
-	// this.startAudio.play();
 	this.diedAudio = new Audio('audio/nonono.mp3');
+	this.powerAudio = new Audio('audio/powerUp.mp3');
 	// creating enemies inside of the map
 	this.enemyArray = [new Enemy(DUMB_ENEMY, 10, 13, WEST, true),
 					   new Enemy(DUMB_ENEMY, 9, 11, EAST, false),
@@ -130,8 +130,11 @@ Board.prototype.die = function(enemyID)
     this.power = false;
     this.life--;
 	MOVED = -1;
+	this.powerAudio.pause();
 	if (this.life !== 0)
+	{
 		this.diedAudio.play();
+	}
 }
 
 Board.prototype.killEnemy = function(enemyID)
@@ -224,6 +227,9 @@ Board.prototype.move = function(type, number)
 						this.power = true;
 						this.numPower++;
 						var save = this.numPower;
+						this.powerAudio.pause();
+						this.powerAudio = new Audio('audio/powerUp.mp3');
+						this.powerAudio.play();
 						setTimeout(function (){
 							if(save === self.numPower)
 							{
